@@ -58,7 +58,17 @@ JSON Input:
   "classTeacherId": 1
 }
 
-6) Create Student (linked to school + class)
+
+6) Create Subject (linked to school)
+-----------------------------------
+API: POST /api/admin/subjects
+JSON Input:
+{
+  "name": "Mathematics",
+  "schoolId": 1
+}
+
+7) Create Student (linked to school + class)
 ---------------------------------------------
 API: POST /api/admin/students
 JSON Input:
@@ -71,7 +81,7 @@ JSON Input:
   "classId": 1
 }
 
-7) Create Parent (linked to student)
+8) Create Parent (linked to student)
 ------------------------------------
 API: POST /api/admin/parents
 JSON Input:
@@ -83,7 +93,7 @@ JSON Input:
   "studentId": 1
 }
 
-8) Provision Teacher Credentials
+9) Provision Teacher Credentials
 --------------------------------
 API: POST /api/admin/teachers/{teacherId}/credentials
 Example Path: /api/admin/teachers/1/credentials
@@ -95,7 +105,7 @@ JSON Input:
   "role": "TEACHER"
 }
 
-9) Provision Parent Credentials
+10) Provision Parent Credentials
 -------------------------------
 API: POST /api/admin/parents/{parentId}/credentials
 Example Path: /api/admin/parents/1/credentials
@@ -107,7 +117,7 @@ JSON Input:
   "role": "PARENT"
 }
 
-10) Login Teacher
+11) Login Teacher
 -----------------
 API: POST /api/auth/login
 JSON Input:
@@ -116,7 +126,7 @@ JSON Input:
   "password": "Teacher@123"
 }
 
-11) Teacher Records Attendance
+12) Teacher Records Attendance
 ------------------------------
 API: POST /api/teacher/attendance
 JSON Input:
@@ -128,7 +138,7 @@ JSON Input:
   "teacherId": 1
 }
 
-12) Teacher Creates Homework
+13) Teacher Creates Homework
 ----------------------------
 API: POST /api/teacher/homework
 JSON Input:
@@ -142,7 +152,7 @@ JSON Input:
   "subjectId": 1
 }
 
-13) Teacher Adds Marks
+14) Teacher Adds Marks
 ----------------------
 API: POST /api/teacher/marks
 JSON Input:
@@ -154,7 +164,7 @@ JSON Input:
   "teacherId": 1
 }
 
-14) Teacher Updates Marks
+15) Teacher Updates Marks
 -------------------------
 API: PUT /api/teacher/marks/{marksId}
 Example Path: /api/teacher/marks/1
@@ -167,7 +177,7 @@ JSON Input:
   "teacherId": 1
 }
 
-15) Teacher Adds Remark
+16) Teacher Adds Remark
 -----------------------
 API: POST /api/teacher/remarks
 JSON Input:
@@ -177,7 +187,7 @@ JSON Input:
   "teacherId": 1
 }
 
-16) Teacher Updates Remark
+17) Teacher Updates Remark
 --------------------------
 API: PUT /api/teacher/remarks/{remarkId}
 Example Path: /api/teacher/remarks/1
@@ -188,14 +198,14 @@ JSON Input:
   "teacherId": 1
 }
 
-17) Teacher Lists Students by Class
+18) Teacher Lists Students by Class
 -----------------------------------
 API: GET /api/teacher/classes/{classId}/students
 Example Path: /api/teacher/classes/1/students
 JSON Input:
 {}
 
-18) Login Parent
+19) Login Parent
 ----------------
 API: POST /api/auth/login
 JSON Input:
@@ -204,14 +214,14 @@ JSON Input:
   "password": "Parent@123"
 }
 
-19) Parent Fetches Child Overview by Parent ID
+20) Parent Fetches Child Overview by Parent ID
 ----------------------------------------------
 API: GET /api/parent/{parentId}/child-overview
 Example Path: /api/parent/1/child-overview
 JSON Input:
 {}
 
-20) Parent Fetches Child Overview by User ID
+21) Parent Fetches Child Overview by User ID
 --------------------------------------------
 API: GET /api/parent/users/{userId}/child-overview
 Example Path: /api/parent/users/3/child-overview
@@ -272,4 +282,13 @@ JSON Input:
   "section": "B",
   "schoolId": 1,
   "classTeacherId": 1
+}
+
+
+F) Update Subject
+API: PUT /api/admin/subjects/{subjectId}
+JSON Input:
+{
+  "name": "Mathematics",
+  "schoolId": 1
 }
