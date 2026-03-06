@@ -3,7 +3,8 @@ package com.sms.sms.Repository;
 import com.sms.sms.Entity.Parent;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ParentRepository extends JpaRepository<Parent, Long> {
+import java.util.Optional;
 
-    boolean existsByUserUsernameAndStudentId(String username, Long studentId);
+public interface ParentRepository extends JpaRepository<Parent, Long> {
+    Optional<Parent> findByUserId(Long userId);
 }

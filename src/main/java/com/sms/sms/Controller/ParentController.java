@@ -1,10 +1,9 @@
 package com.sms.sms.Controller;
 
-import com.sms.sms.Service.StudentAccessService;
+import com.sms.sms.DTO.parent.ChildAcademicOverviewResponse;
+import com.sms.sms.Service.ParentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,17 +11,20 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ParentController {
 
-    private final StudentAccessService studentAccessService;
+    private final ParentService parentService;
 
-    @GetMapping("/children/{studentId}/progress")
-    public ResponseEntity<String> getChildProgress(@PathVariable Long studentId, Authentication authentication) {
-        return ResponseEntity.ok(studentAccessService.getStudentProgressForParent(authentication.getName(), studentId));
+    @GetMapping("/{parentId}/child-overview")
+    public ResponseEntity<ChildAcademicOverviewResponse> getChildOverview(@PathVariable Long parentId) {
+        return ResponseEntity.ok(parentService.getChildAcademicOverview(parentId));
     }
 
-    @PutMapping("/children/{studentId}/contact")
-    @PreAuthorize("hasRole('PARENT')")
-    public ResponseEntity<String> updateContactInfo(@PathVariable Long studentId, Authentication authentication) {
-        studentAccessService.getStudentProgressForParent(authentication.getName(), studentId);
-        return ResponseEntity.ok("Updated contact info for student " + studentId);
+    @GetMapping("/users/{userId}/child-overview")
+    public ResponseEntity<ChildAcademicOverviewResponse> getChildOverviewByUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(parentService.getChildAcademicOverviewByUserId(userId));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
