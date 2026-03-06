@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class AdminService {
@@ -17,7 +19,6 @@ public class AdminService {
     private final ParentRepository parentRepository;
     private final StudentRepository studentRepository;
     private final SchoolClassRepository schoolClassRepository;
-    private final SubjectRepository subjectRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -28,6 +29,7 @@ public class AdminService {
         school.setName(request.getName());
         school.setAddress(request.getAddress());
         school.setEmail(request.getEmail());
+        school.setCreatedAt(LocalDateTime.now());
         school.setPhone(request.getPhone());
         return DtoMapper.toSchoolDto(schoolRepository.save(school));
     }
@@ -78,17 +80,6 @@ public class AdminService {
         schoolClass.setSchool(getSchool(request.getSchoolId()));
         schoolClass.setClassTeacher(getTeacher(request.getClassTeacherId()));
         return DtoMapper.toClassDto(schoolClassRepository.save(schoolClass));
-    }
-
-
-    public SubjectDto upsertSubject(Long subjectId, SubjectDto request) {
-        Subject subject = subjectId == null
-                ? new Subject()
-                : subjectRepository.findById(subjectId).orElseThrow(() -> new IllegalArgumentException("Subject not found: " + subjectId));
-        subject.setName(request.getName());
-        subject.setSchool(getSchool(request.getSchoolId()));
-        Subject saved = subjectRepository.save(subject);
-        return new SubjectDto(saved.getId(), saved.getName(), saved.getSchool() != null ? saved.getSchool().getId() : null);
     }
 
     public UserCredentialResponse provisionTeacherCredentials(Long teacherId, ProvisionCredentialRequest request) {

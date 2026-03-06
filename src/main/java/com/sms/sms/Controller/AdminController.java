@@ -3,6 +3,7 @@ package com.sms.sms.Controller;
 import com.sms.sms.DTO.admin.ProvisionCredentialRequest;
 import com.sms.sms.DTO.common.*;
 import com.sms.sms.Service.AdminService;
+import com.sms.sms.Service.SubjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final AdminService adminService;
+    private final SubjectService subjectService;
 
     @PostMapping("/schools")
     public ResponseEntity<SchoolDto> createSchool(@RequestBody SchoolDto request) {
@@ -67,12 +69,12 @@ public class AdminController {
 
     @PostMapping("/subjects")
     public ResponseEntity<SubjectDto> createSubject(@RequestBody SubjectDto request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(adminService.upsertSubject(null, request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(subjectService.upsertSubject(null, request));
     }
 
     @PutMapping("/subjects/{subjectId}")
     public ResponseEntity<SubjectDto> updateSubject(@PathVariable Long subjectId, @RequestBody SubjectDto request) {
-        return ResponseEntity.ok(adminService.upsertSubject(subjectId, request));
+        return ResponseEntity.ok(subjectService.upsertSubject(subjectId, request));
     }
 
     @PostMapping("/teachers/{teacherId}/credentials")
