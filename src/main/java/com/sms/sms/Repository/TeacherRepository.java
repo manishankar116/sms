@@ -1,0 +1,10 @@
+package com.sms.sms.Repository;
+
+import com.sms.sms.Entity.Teacher;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TeacherRepository extends JpaRepository<Teacher, Long> {
+    boolean existsByUserUsernameAndClassTeacherOfStudentsId(String username, Long studentId);
+
+    boolean existsByUser_UsernameAndClassTeacherOf_Students_Id(String username, Long studentId);
+}
