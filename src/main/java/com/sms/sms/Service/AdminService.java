@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class AdminService {
@@ -27,6 +29,7 @@ public class AdminService {
         school.setName(request.getName());
         school.setAddress(request.getAddress());
         school.setEmail(request.getEmail());
+        school.setCreatedAt(LocalDateTime.now());
         school.setPhone(request.getPhone());
         return DtoMapper.toSchoolDto(schoolRepository.save(school));
     }
