@@ -26,20 +26,28 @@ public class AuthService {
     private final UserDetailsService userDetailsService;
 
     public AuthResponse register(RegisterRequest request) {
-        if (userRepository.existsByUsername(request.getUsername())) {
-            throw new IllegalArgumentException("Username already exists");
-        }
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new IllegalArgumentException("Email already exists");
+        validateUniqueUser(request);
+
+        if (request.isPrivilegedRoleRequested()) {
+            throw new IllegalArgumentException("Public registration can only create PARENT accounts");
         }
 
-        User user = new User();
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole() == null ? Role.PARENT : request.getRole());
+        User savedUser = createUser(request, Role.PARENT);
 
-        User savedUser = userRepository.save(user);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(savedUser.getUsername());
+        String token = jwtService.generateToken(userDetails);
+
+        return new AuthResponse(token, savedUser.getUsername(), savedUser.getRole().name());
+    }
+
+    public AuthResponse provisionUser(RegisterRequest request) {
+        if (request.getRole() == null) {
+            throw new IllegalArgumentException("Role is required for admin provisioning");
+        }
+
+        validateUniqueUser(request);
+
+        User savedUser = createUser(request, request.getRole());
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(savedUser.getUsername());
         String token = jwtService.generateToken(userDetails);
@@ -62,5 +70,24 @@ public class AuthService {
         String token = jwtService.generateToken(userDetails);
 
         return new AuthResponse(token, user.getUsername(), user.getRole().name());
+    }
+
+    private void validateUniqueUser(RegisterRequest request) {
+        if (userRepository.existsByUsername(request.getUsername())) {
+            throw new IllegalArgumentException("Username already exists");
+        }
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+    }
+
+    private User createUser(RegisterRequest request, Role role) {
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(role);
+
+        return userRepository.save(user);
     }
 }
