@@ -9,4 +9,8 @@ public class RegisterRequest {
     private String email;
     private String password;
     private Role role;
+
+    public boolean isPrivilegedRoleRequested() {
+        return role != null && role != Role.PARENT;
+    }
 }
