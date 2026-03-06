@@ -1,0 +1,275 @@
+SMS API FLOW (SEQUENTIAL)
+=========================
+
+Base URL: http://localhost:8080
+Auth: Except /api/auth/**, all endpoints require Authorization: Bearer <JWT>
+
+1) Register Admin User
+----------------------
+API: POST /api/auth/register
+JSON Input:
+{
+  "username": "admin1",
+  "email": "admin1@sms.com",
+  "password": "Admin@123",
+  "role": "ADMIN"
+}
+
+2) Login Admin User
+-------------------
+API: POST /api/auth/login
+JSON Input:
+{
+  "username": "admin1",
+  "password": "Admin@123"
+}
+
+3) Create School
+----------------
+API: POST /api/admin/schools
+JSON Input:
+{
+  "name": "Green Valley School",
+  "address": "Sector 10, City",
+  "email": "contact@greenvalley.edu",
+  "phone": "9876543210"
+}
+
+4) Create Teacher (linked to school)
+-------------------------------------
+API: POST /api/admin/teachers
+JSON Input:
+{
+  "name": "Amit Sharma",
+  "subjectSpecialization": "Mathematics",
+  "phone": "9999999991",
+  "email": "amit.sharma@greenvalley.edu",
+  "schoolId": 1
+}
+
+5) Create Class (assign class teacher)
+--------------------------------------
+API: POST /api/admin/classes
+JSON Input:
+{
+  "className": "10",
+  "section": "A",
+  "schoolId": 1,
+  "classTeacherId": 1
+}
+
+6) Create Student (linked to school + class)
+---------------------------------------------
+API: POST /api/admin/students
+JSON Input:
+{
+  "name": "Rohan Kumar",
+  "rollNo": "10A-01",
+  "dateOfBirth": "2010-05-14",
+  "gender": "MALE",
+  "schoolId": 1,
+  "classId": 1
+}
+
+7) Create Parent (linked to student)
+------------------------------------
+API: POST /api/admin/parents
+JSON Input:
+{
+  "name": "Suresh Kumar",
+  "phone": "9999999992",
+  "email": "suresh.kumar@gmail.com",
+  "relation": "FATHER",
+  "studentId": 1
+}
+
+8) Provision Teacher Credentials
+--------------------------------
+API: POST /api/admin/teachers/{teacherId}/credentials
+Example Path: /api/admin/teachers/1/credentials
+JSON Input:
+{
+  "username": "teacher1",
+  "email": "teacher1@greenvalley.edu",
+  "password": "Teacher@123",
+  "role": "TEACHER"
+}
+
+9) Provision Parent Credentials
+-------------------------------
+API: POST /api/admin/parents/{parentId}/credentials
+Example Path: /api/admin/parents/1/credentials
+JSON Input:
+{
+  "username": "parent1",
+  "email": "parent1@gmail.com",
+  "password": "Parent@123",
+  "role": "PARENT"
+}
+
+10) Login Teacher
+-----------------
+API: POST /api/auth/login
+JSON Input:
+{
+  "username": "teacher1",
+  "password": "Teacher@123"
+}
+
+11) Teacher Records Attendance
+------------------------------
+API: POST /api/teacher/attendance
+JSON Input:
+{
+  "date": "2026-01-10",
+  "status": "PRESENT",
+  "studentId": 1,
+  "classId": 1,
+  "teacherId": 1
+}
+
+12) Teacher Creates Homework
+----------------------------
+API: POST /api/teacher/homework
+JSON Input:
+{
+  "title": "Algebra Worksheet",
+  "description": "Solve questions 1 to 20 from chapter 3.",
+  "assignedDate": "2026-01-10",
+  "dueDate": "2026-01-13",
+  "teacherId": 1,
+  "classId": 1,
+  "subjectId": 1
+}
+
+13) Teacher Adds Marks
+----------------------
+API: POST /api/teacher/marks
+JSON Input:
+{
+  "marks": 88,
+  "maxMarks": 100,
+  "studentId": 1,
+  "examId": 1,
+  "teacherId": 1
+}
+
+14) Teacher Updates Marks
+-------------------------
+API: PUT /api/teacher/marks/{marksId}
+Example Path: /api/teacher/marks/1
+JSON Input:
+{
+  "marks": 91,
+  "maxMarks": 100,
+  "studentId": 1,
+  "examId": 1,
+  "teacherId": 1
+}
+
+15) Teacher Adds Remark
+-----------------------
+API: POST /api/teacher/remarks
+JSON Input:
+{
+  "remark": "Shows consistent improvement in class participation.",
+  "studentId": 1,
+  "teacherId": 1
+}
+
+16) Teacher Updates Remark
+--------------------------
+API: PUT /api/teacher/remarks/{remarkId}
+Example Path: /api/teacher/remarks/1
+JSON Input:
+{
+  "remark": "Excellent progress and regular submission of homework.",
+  "studentId": 1,
+  "teacherId": 1
+}
+
+17) Teacher Lists Students by Class
+-----------------------------------
+API: GET /api/teacher/classes/{classId}/students
+Example Path: /api/teacher/classes/1/students
+JSON Input:
+{}
+
+18) Login Parent
+----------------
+API: POST /api/auth/login
+JSON Input:
+{
+  "username": "parent1",
+  "password": "Parent@123"
+}
+
+19) Parent Fetches Child Overview by Parent ID
+----------------------------------------------
+API: GET /api/parent/{parentId}/child-overview
+Example Path: /api/parent/1/child-overview
+JSON Input:
+{}
+
+20) Parent Fetches Child Overview by User ID
+--------------------------------------------
+API: GET /api/parent/users/{userId}/child-overview
+Example Path: /api/parent/users/3/child-overview
+JSON Input:
+{}
+
+OPTIONAL UPDATE APIs (Admin)
+============================
+A) Update School
+API: PUT /api/admin/schools/{schoolId}
+JSON Input:
+{
+  "name": "Green Valley Senior Secondary School",
+  "address": "Sector 10, New City",
+  "email": "office@greenvalley.edu",
+  "phone": "9876543200"
+}
+
+B) Update Teacher
+API: PUT /api/admin/teachers/{teacherId}
+JSON Input:
+{
+  "name": "Amit Sharma",
+  "subjectSpecialization": "Advanced Mathematics",
+  "phone": "9999999991",
+  "email": "amit.sharma@greenvalley.edu",
+  "schoolId": 1
+}
+
+C) Update Parent
+API: PUT /api/admin/parents/{parentId}
+JSON Input:
+{
+  "name": "Suresh Kumar",
+  "phone": "9999999992",
+  "email": "suresh.kumar@gmail.com",
+  "relation": "GUARDIAN",
+  "studentId": 1
+}
+
+D) Update Student
+API: PUT /api/admin/students/{studentId}
+JSON Input:
+{
+  "name": "Rohan Kumar",
+  "rollNo": "10A-01",
+  "dateOfBirth": "2010-05-14",
+  "gender": "MALE",
+  "schoolId": 1,
+  "classId": 1
+}
+
+E) Update Class
+API: PUT /api/admin/classes/{classId}
+JSON Input:
+{
+  "className": "10",
+  "section": "B",
+  "schoolId": 1,
+  "classTeacherId": 1
+}
