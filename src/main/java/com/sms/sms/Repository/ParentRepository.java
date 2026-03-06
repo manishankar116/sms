@@ -7,4 +7,8 @@ import java.util.Optional;
 
 public interface ParentRepository extends JpaRepository<Parent, Long> {
     Optional<Parent> findByUserId(Long userId);
+
+    boolean existsByUserUsernameAndStudentId(String username, Long studentId);
+
+    boolean existsByUser_UsernameAndStudent_Id(String username, Long studentId);
 }
