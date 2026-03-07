@@ -18,11 +18,13 @@ public class TeacherService {
     private final HomeworkRepository homeworkRepository;
     private final MarksRepository marksRepository;
     private final RemarkRepository remarkRepository;
+    private final AnnouncementRepository announcementRepository;
     private final StudentRepository studentRepository;
     private final TeacherRepository teacherRepository;
     private final SchoolClassRepository schoolClassRepository;
     private final SubjectRepository subjectRepository;
     private final ExamRepository examRepository;
+    private final SchoolRepository schoolRepository;
 
     public AttendanceResponse recordAttendance(AttendanceRequest request) {
         Attendance attendance = new Attendance();
@@ -73,6 +75,34 @@ public class TeacherService {
         return DtoMapper.toRemarkResponse(remarkRepository.save(remark));
     }
 
+    public ExamResponse upsertExam(Long examId, ExamRequest request) {
+        Exam exam = examId == null
+                ? new Exam()
+                : examRepository.findById(examId).orElseThrow(() -> new IllegalArgumentException("Exam not found: " + examId));
+
+        exam.setExamName(request.getExamName());
+        exam.setExamDate(request.getExamDate());
+        exam.setSchool(getSchool(request.getSchoolId()));
+        exam.setSchoolClass(getClassEntity(request.getClassId()));
+        exam.setSubject(getSubject(request.getSubjectId()));
+        return DtoMapper.toExamResponse(examRepository.save(exam));
+    }
+
+    public AnnouncementResponse upsertAnnouncement(Long announcementId, AnnouncementRequest request) {
+        Announcement announcement = announcementId == null
+                ? new Announcement()
+                : announcementRepository.findById(announcementId)
+                .orElseThrow(() -> new IllegalArgumentException("Announcement not found: " + announcementId));
+
+        announcement.setTitle(request.getTitle());
+        announcement.setDescription(request.getDescription());
+        announcement.setSchool(getSchool(request.getSchoolId()));
+        if (announcement.getCreatedAt() == null) {
+            announcement.setCreatedAt(LocalDateTime.now());
+        }
+        return DtoMapper.toAnnouncementResponse(announcementRepository.save(announcement));
+    }
+
     public List<StudentDto> listStudentsByClass(Long classId) {
         return studentRepository.findBySchoolClassId(classId)
                 .stream()
@@ -98,5 +128,9 @@ public class TeacherService {
 
     private Exam getExam(Long examId) {
         return examRepository.findById(examId).orElseThrow(() -> new IllegalArgumentException("Exam not found: " + examId));
+    }
+
+    private School getSchool(Long schoolId) {
+        return schoolRepository.findById(schoolId).orElseThrow(() -> new IllegalArgumentException("School not found: " + schoolId));
     }
 }

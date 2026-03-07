@@ -47,6 +47,27 @@ public class TeacherController {
         return ResponseEntity.ok(teacherService.upsertRemark(remarkId, request));
     }
 
+    @PostMapping("/exams")
+    public ResponseEntity<ExamResponse> createExam(@RequestBody ExamRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(teacherService.upsertExam(null, request));
+    }
+
+    @PutMapping("/exams/{examId}")
+    public ResponseEntity<ExamResponse> updateExam(@PathVariable Long examId, @RequestBody ExamRequest request) {
+        return ResponseEntity.ok(teacherService.upsertExam(examId, request));
+    }
+
+    @PostMapping("/announcements")
+    public ResponseEntity<AnnouncementResponse> createAnnouncement(@RequestBody AnnouncementRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(teacherService.upsertAnnouncement(null, request));
+    }
+
+    @PutMapping("/announcements/{announcementId}")
+    public ResponseEntity<AnnouncementResponse> updateAnnouncement(@PathVariable Long announcementId,
+                                                                   @RequestBody AnnouncementRequest request) {
+        return ResponseEntity.ok(teacherService.upsertAnnouncement(announcementId, request));
+    }
+
     @GetMapping("/classes/{classId}/students")
     public ResponseEntity<List<StudentDto>> listStudentsByClass(@PathVariable Long classId) {
         return ResponseEntity.ok(teacherService.listStudentsByClass(classId));
