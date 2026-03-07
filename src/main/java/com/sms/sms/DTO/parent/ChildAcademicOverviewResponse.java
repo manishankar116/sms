@@ -1,6 +1,7 @@
 package com.sms.sms.DTO.parent;
 
 import com.sms.sms.DTO.common.StudentDto;
+import com.sms.sms.DTO.teacher.AnnouncementResponse;
 import com.sms.sms.DTO.teacher.AttendanceResponse;
 import com.sms.sms.DTO.teacher.HomeworkResponse;
 import com.sms.sms.DTO.teacher.MarksResponse;
@@ -20,4 +21,5 @@ public class ChildAcademicOverviewResponse {
     private List<HomeworkResponse> homework;
     private List<MarksResponse> marks;
     private List<RemarkResponse> remarks;
+    private List<AnnouncementResponse> announcements;
 }

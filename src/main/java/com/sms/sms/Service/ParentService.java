@@ -16,6 +16,7 @@ public class ParentService {
     private final HomeworkRepository homeworkRepository;
     private final MarksRepository marksRepository;
     private final RemarkRepository remarkRepository;
+    private final AnnouncementRepository announcementRepository;
 
     public ChildAcademicOverviewResponse getChildAcademicOverview(Long parentId) {
         Parent parent = parentRepository.findById(parentId)
@@ -42,7 +43,13 @@ public class ParentService {
                         ? java.util.List.of()
                         : homeworkRepository.findBySchoolClassId(student.getSchoolClass().getId()).stream().map(DtoMapper::toHomeworkResponse).toList(),
                 marksRepository.findByStudentId(student.getId()).stream().map(DtoMapper::toMarksResponse).toList(),
-                remarkRepository.findByStudentId(student.getId()).stream().map(DtoMapper::toRemarkResponse).toList()
+                remarkRepository.findByStudentId(student.getId()).stream().map(DtoMapper::toRemarkResponse).toList(),
+                student.getSchool() == null
+                        ? java.util.List.of()
+                        : announcementRepository.findBySchoolIdOrderByCreatedAtDesc(student.getSchool().getId())
+                        .stream()
+                        .map(DtoMapper::toAnnouncementResponse)
+                        .toList()
         );
     }
 }
