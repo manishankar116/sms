@@ -103,4 +103,25 @@ public final class DtoMapper {
                 remark.getTeacher() != null ? remark.getTeacher().getId() : null
         );
     }
+
+    public static ExamResponse toExamResponse(Exam exam) {
+        return new ExamResponse(
+                exam.getId(),
+                exam.getExamName(),
+                exam.getExamDate(),
+                exam.getSchool() != null ? exam.getSchool().getId() : null,
+                exam.getSchoolClass() != null ? exam.getSchoolClass().getId() : null,
+                exam.getSubject() != null ? exam.getSubject().getId() : null
+        );
+    }
+
+    public static AnnouncementResponse toAnnouncementResponse(Announcement announcement) {
+        return new AnnouncementResponse(
+                announcement.getId(),
+                announcement.getTitle(),
+                announcement.getDescription(),
+                announcement.getCreatedAt(),
+                announcement.getSchool() != null ? announcement.getSchool().getId() : null
+        );
+    }
 }
