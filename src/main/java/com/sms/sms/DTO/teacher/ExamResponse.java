@@ -16,4 +16,8 @@ public class ExamResponse {
     private Long schoolId;
     private Long classId;
     private Long subjectId;
+    private Long studentId;
+    private String studentName;
+    private Long teacherId;
+    private String teacherName;
 }

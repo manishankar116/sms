@@ -111,7 +111,11 @@ public final class DtoMapper {
                 exam.getExamDate(),
                 exam.getSchool() != null ? exam.getSchool().getId() : null,
                 exam.getSchoolClass() != null ? exam.getSchoolClass().getId() : null,
-                exam.getSubject() != null ? exam.getSubject().getId() : null
+                exam.getSubject() != null ? exam.getSubject().getId() : null,
+                exam.getStudent() != null ? exam.getStudent().getId() : null,
+                exam.getStudent() != null ? exam.getStudent().getName() : null,
+                exam.getTeacher() != null ? exam.getTeacher().getId() : null,
+                exam.getTeacher() != null ? exam.getTeacher().getName() : null
         );
     }
 

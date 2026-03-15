@@ -15,4 +15,6 @@ public class ExamRequest {
     private Long schoolId;
     private Long classId;
     private Long subjectId;
+    private Long studentId;
+    private Long teacherId;
 }
