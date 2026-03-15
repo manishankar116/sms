@@ -12,6 +12,8 @@ public class MarksResponse {
     private Integer marks;
     private Integer maxMarks;
     private Long studentId;
+    private String studentName;
     private Long examId;
     private Long teacherId;
+    private String teacherName;
 }

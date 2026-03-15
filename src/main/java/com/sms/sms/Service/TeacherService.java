@@ -85,6 +85,8 @@ public class TeacherService {
         exam.setSchool(getSchool(request.getSchoolId()));
         exam.setSchoolClass(getClassEntity(request.getClassId()));
         exam.setSubject(getSubject(request.getSubjectId()));
+        exam.setStudent(request.getStudentId() == null ? null : getStudent(request.getStudentId()));
+        exam.setTeacher(request.getTeacherId() == null ? null : getTeacher(request.getTeacherId()));
         return DtoMapper.toExamResponse(examRepository.save(exam));
     }
 

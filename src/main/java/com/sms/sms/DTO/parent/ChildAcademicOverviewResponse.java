@@ -4,6 +4,7 @@ import com.sms.sms.DTO.common.StudentDto;
 import com.sms.sms.DTO.teacher.AnnouncementResponse;
 import com.sms.sms.DTO.teacher.AttendanceResponse;
 import com.sms.sms.DTO.teacher.HomeworkResponse;
+import com.sms.sms.DTO.teacher.ExamResponse;
 import com.sms.sms.DTO.teacher.MarksResponse;
 import com.sms.sms.DTO.teacher.RemarkResponse;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ public class ChildAcademicOverviewResponse {
     private StudentDto student;
     private List<AttendanceResponse> attendance;
     private List<HomeworkResponse> homework;
+    private List<ExamResponse> exams;
     private List<MarksResponse> marks;
     private List<RemarkResponse> remarks;
     private List<AnnouncementResponse> announcements;
