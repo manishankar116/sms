@@ -69,4 +69,11 @@ public class ParentService {
                         .toList()
         );
     }
+
+    private List<Marks> getMarksForStudent(Long studentId) {
+        LinkedHashMap<Long, Marks> marksById = new LinkedHashMap<>();
+        marksRepository.findByStudentId(studentId).forEach(mark -> marksById.put(mark.getId(), mark));
+        marksRepository.findByExamStudentId(studentId).forEach(mark -> marksById.put(mark.getId(), mark));
+        return List.copyOf(marksById.values());
+    }
 }
