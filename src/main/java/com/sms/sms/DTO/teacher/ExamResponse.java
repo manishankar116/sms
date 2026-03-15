@@ -14,10 +14,9 @@ public class ExamResponse {
     private String examName;
     private LocalDate examDate;
     private Long schoolId;
-    private Long classId;
+    private String className;
     private Long subjectId;
     private Long studentId;
     private String studentName;
-    private Long teacherId;
     private String teacherName;
 }

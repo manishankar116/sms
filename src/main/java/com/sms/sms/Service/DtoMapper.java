@@ -89,8 +89,10 @@ public final class DtoMapper {
                 marks.getMarks(),
                 marks.getMaxMarks(),
                 marks.getStudent() != null ? marks.getStudent().getId() : null,
+                marks.getStudent() != null ? marks.getStudent().getName() : null,
                 marks.getExam() != null ? marks.getExam().getId() : null,
-                marks.getTeacher() != null ? marks.getTeacher().getId() : null
+                marks.getTeacher() != null ? marks.getTeacher().getId() : null,
+                marks.getTeacher() != null ? marks.getTeacher().getName() : null
         );
     }
 
@@ -110,11 +112,10 @@ public final class DtoMapper {
                 exam.getExamName(),
                 exam.getExamDate(),
                 exam.getSchool() != null ? exam.getSchool().getId() : null,
-                exam.getSchoolClass() != null ? exam.getSchoolClass().getId() : null,
+                exam.getSchoolClass() != null ? exam.getSchoolClass().getClassName() : null,
                 exam.getSubject() != null ? exam.getSubject().getId() : null,
                 exam.getStudent() != null ? exam.getStudent().getId() : null,
                 exam.getStudent() != null ? exam.getStudent().getName() : null,
-                exam.getTeacher() != null ? exam.getTeacher().getId() : null,
                 exam.getTeacher() != null ? exam.getTeacher().getName() : null
         );
     }
