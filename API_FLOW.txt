@@ -220,6 +220,19 @@ API: GET /api/parent/{parentId}/child-overview
 Example Path: /api/parent/1/child-overview
 JSON Input:
 {}
+Sample Response Fields:
+{
+  "marks": [
+    {
+      "subjectId": 1,
+      "subjectName": "Mathematics"
+    }
+  ],
+  "totalMarksObtained": 169,
+  "totalMaxMarks": 200,
+  "percentage": 84.5,
+  "grade": "A"
+}
 
 21) Parent Fetches Child Overview by User ID
 --------------------------------------------
@@ -227,6 +240,19 @@ API: GET /api/parent/users/{userId}/child-overview
 Example Path: /api/parent/users/3/child-overview
 JSON Input:
 {}
+Sample Response Fields:
+{
+  "marks": [
+    {
+      "subjectId": 1,
+      "subjectName": "Mathematics"
+    }
+  ],
+  "totalMarksObtained": 169,
+  "totalMaxMarks": 200,
+  "percentage": 84.5,
+  "grade": "A"
+}
 
 OPTIONAL UPDATE APIs (Admin)
 ============================

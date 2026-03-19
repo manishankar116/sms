@@ -84,6 +84,10 @@ public final class DtoMapper {
     }
 
     public static MarksResponse toMarksResponse(Marks marks) {
+        Subject subject = marks.getSubject() != null
+                ? marks.getSubject()
+                : marks.getExam() != null ? marks.getExam().getSubject() : null;
+
         return new MarksResponse(
                 marks.getId(),
                 marks.getMarks(),
@@ -91,6 +95,8 @@ public final class DtoMapper {
                 marks.getStudent() != null ? marks.getStudent().getId() : null,
                 marks.getStudent() != null ? marks.getStudent().getName() : null,
                 marks.getExam() != null ? marks.getExam().getId() : null,
+                subject != null ? subject.getId() : null,
+                subject != null ? subject.getName() : null,
                 marks.getTeacher() != null ? marks.getTeacher().getId() : null,
                 marks.getTeacher() != null ? marks.getTeacher().getName() : null
         );
