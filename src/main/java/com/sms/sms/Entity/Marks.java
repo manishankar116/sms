@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-import java.util.List;
 @Entity
 @Getter
 @Setter
@@ -34,4 +32,8 @@ public class Marks {
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
+
+    @ManyToOne
+    @JoinColumn(name = "subject_id")
+    private Subject subject;
 }
