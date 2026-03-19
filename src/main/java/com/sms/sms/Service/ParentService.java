@@ -5,7 +5,13 @@ import com.sms.sms.Entity.Exam;
 import com.sms.sms.Entity.Marks;
 import com.sms.sms.Entity.Parent;
 import com.sms.sms.Entity.Student;
-import com.sms.sms.Repository.*;
+import com.sms.sms.Repository.AnnouncementRepository;
+import com.sms.sms.Repository.AttendanceRepository;
+import com.sms.sms.Repository.ExamRepository;
+import com.sms.sms.Repository.HomeworkRepository;
+import com.sms.sms.Repository.MarksRepository;
+import com.sms.sms.Repository.ParentRepository;
+import com.sms.sms.Repository.RemarkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,9 +48,8 @@ public class ParentService {
             throw new IllegalArgumentException("Parent is not linked to any student");
         }
 
-        LinkedHashMap<Long, Marks> marksById = new LinkedHashMap<>();
-        marksRepository.findByStudentId(student.getId()).forEach(mark -> marksById.put(mark.getId(), mark));
-        marksRepository.findByExamStudentId(student.getId()).forEach(mark -> marksById.put(mark.getId(), mark));
+        List<Marks> marks = getMarksForStudent(student.getId());
+        AcademicPerformance performance = calculateAcademicPerformance(marks);
 
         LinkedHashMap<Long, Exam> examsById = new LinkedHashMap<>();
         if (student.getSchoolClass() != null) {
@@ -56,13 +61,17 @@ public class ParentService {
                 DtoMapper.toStudentDto(student),
                 attendanceRepository.findByStudentId(student.getId()).stream().map(DtoMapper::toAttendanceResponse).toList(),
                 student.getSchoolClass() == null
-                        ? java.util.List.of()
+                        ? List.of()
                         : homeworkRepository.findBySchoolClassId(student.getSchoolClass().getId()).stream().map(DtoMapper::toHomeworkResponse).toList(),
                 List.copyOf(examsById.values()).stream().map(DtoMapper::toExamResponse).toList(),
-                List.copyOf(marksById.values()).stream().map(DtoMapper::toMarksResponse).toList(),
+                marks.stream().map(DtoMapper::toMarksResponse).toList(),
+                performance.totalMarksObtained(),
+                performance.totalMaxMarks(),
+                performance.percentage(),
+                performance.grade(),
                 remarkRepository.findByStudentId(student.getId()).stream().map(DtoMapper::toRemarkResponse).toList(),
                 student.getSchool() == null
-                        ? java.util.List.of()
+                        ? List.of()
                         : announcementRepository.findBySchoolIdOrderByCreatedAtDesc(student.getSchool().getId())
                         .stream()
                         .map(DtoMapper::toAnnouncementResponse)
@@ -75,5 +84,45 @@ public class ParentService {
         marksRepository.findByStudentId(studentId).forEach(mark -> marksById.put(mark.getId(), mark));
         marksRepository.findByExamStudentId(studentId).forEach(mark -> marksById.put(mark.getId(), mark));
         return List.copyOf(marksById.values());
+    }
+
+    private AcademicPerformance calculateAcademicPerformance(List<Marks> marks) {
+        int totalMarksObtained = marks.stream()
+                .filter(mark -> mark.getMarks() != null && mark.getMaxMarks() != null)
+                .mapToInt(Marks::getMarks)
+                .sum();
+        int totalMaxMarks = marks.stream()
+                .filter(mark -> mark.getMarks() != null && mark.getMaxMarks() != null)
+                .mapToInt(Marks::getMaxMarks)
+                .sum();
+
+        if (totalMaxMarks == 0) {
+            return new AcademicPerformance(totalMarksObtained, totalMaxMarks, 0.0, "N/A");
+        }
+
+        double percentage = Math.round((totalMarksObtained * 10000.0) / totalMaxMarks) / 100.0;
+        return new AcademicPerformance(totalMarksObtained, totalMaxMarks, percentage, calculateGrade(percentage));
+    }
+
+    private String calculateGrade(double percentage) {
+        if (percentage >= 90) {
+            return "A+";
+        }
+        if (percentage >= 80) {
+            return "A";
+        }
+        if (percentage >= 70) {
+            return "B";
+        }
+        if (percentage >= 60) {
+            return "C";
+        }
+        if (percentage >= 50) {
+            return "D";
+        }
+        return "F";
+    }
+
+    private record AcademicPerformance(int totalMarksObtained, int totalMaxMarks, double percentage, String grade) {
     }
 }

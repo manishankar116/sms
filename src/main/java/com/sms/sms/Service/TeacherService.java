@@ -53,11 +53,14 @@ public class TeacherService {
                 ? new Marks()
                 : marksRepository.findById(marksId).orElseThrow(() -> new IllegalArgumentException("Marks not found: " + marksId));
 
+        Exam exam = getExam(request.getExamId());
+
         marks.setMarks(request.getMarks());
         marks.setMaxMarks(request.getMaxMarks());
         marks.setStudent(getStudent(request.getStudentId()));
-        marks.setExam(getExam(request.getExamId()));
+        marks.setExam(exam);
         marks.setTeacher(getTeacher(request.getTeacherId()));
+        marks.setSubject(exam.getSubject());
         return DtoMapper.toMarksResponse(marksRepository.save(marks));
     }
 
