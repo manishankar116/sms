@@ -4,7 +4,7 @@ import com.sms.sms.DTO.common.*;
 import com.sms.sms.DTO.teacher.*;
 import com.sms.sms.Entity.*;
 
-public final class DtoMapper {
+public final class  DtoMapper {
 
     private DtoMapper() {
     }
@@ -77,9 +77,9 @@ public final class DtoMapper {
                 homework.getDescription(),
                 homework.getAssignedDate(),
                 homework.getDueDate(),
-                homework.getTeacher() != null ? homework.getTeacher().getId() : null,
+                homework.getTeacher() != null ? homework.getTeacher().getName() : null,
                 homework.getSchoolClass() != null ? homework.getSchoolClass().getId() : null,
-                homework.getSubject() != null ? homework.getSubject().getId() : null
+                homework.getSubject() != null ? homework.getSubject().getName() : null
         );
     }
 
@@ -95,10 +95,14 @@ public final class DtoMapper {
                 marks.getStudent() != null ? marks.getStudent().getId() : null,
                 marks.getStudent() != null ? marks.getStudent().getName() : null,
                 marks.getExam() != null ? marks.getExam().getId() : null,
+                marks.getExam() != null ? marks.getExam().getExamName() : null,
                 subject != null ? subject.getId() : null,
                 subject != null ? subject.getName() : null,
                 marks.getTeacher() != null ? marks.getTeacher().getId() : null,
-                marks.getTeacher() != null ? marks.getTeacher().getName() : null
+                marks.getTeacher() != null ? marks.getTeacher().getName() : null,
+                marks.getStatus(),
+                marks.getGrade(),
+                marks.getExam().getExamDate()
         );
     }
 
@@ -120,6 +124,7 @@ public final class DtoMapper {
                 exam.getSchool() != null ? exam.getSchool().getId() : null,
                 exam.getSchoolClass() != null ? exam.getSchoolClass().getClassName() : null,
                 exam.getSubject() != null ? exam.getSubject().getId() : null,
+                exam.getSubject() != null ? exam.getSubject().getName() : null,
                 exam.getStudent() != null ? exam.getStudent().getId() : null,
                 exam.getStudent() != null ? exam.getStudent().getName() : null,
                 exam.getTeacher() != null ? exam.getTeacher().getName() : null

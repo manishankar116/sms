@@ -21,6 +21,12 @@ public class Marks {
 
     private Integer maxMarks;
 
+    @Enumerated(EnumType.STRING)
+    private ExamStatus status;
+
+    @Enumerated(EnumType.STRING)
+    private ExamGrade grade;
+
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;

@@ -15,7 +15,7 @@ public class HomeworkResponse {
     private String description;
     private LocalDate assignedDate;
     private LocalDate dueDate;
-    private Long teacherId;
+    private String teacherName;
     private Long classId;
-    private Long subjectId;
+    private String subjectName;
 }

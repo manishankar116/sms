@@ -59,6 +59,8 @@ public class TeacherService {
         marks.setMaxMarks(request.getMaxMarks());
         marks.setStudent(getStudent(request.getStudentId()));
         marks.setExam(exam);
+        marks.setGrade(request.getGrade());
+        marks.setStatus(request.getStatus());
         marks.setTeacher(getTeacher(request.getTeacherId()));
         marks.setSubject(exam.getSubject());
         return DtoMapper.toMarksResponse(marksRepository.save(marks));
