@@ -2,6 +2,7 @@ package com.sms.sms.Controller;
 
 import com.sms.sms.DTO.common.StudentDto;
 import com.sms.sms.DTO.teacher.*;
+import com.sms.sms.Entity.SchoolClass;
 import com.sms.sms.Service.TeacherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
