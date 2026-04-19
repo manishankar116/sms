@@ -1,8 +1,8 @@
 package com.sms.sms.Controller;
 
 import com.sms.sms.DTO.common.StudentDto;
+import com.sms.sms.DTO.common.SchoolClassDto;
 import com.sms.sms.DTO.teacher.*;
-import com.sms.sms.Entity.SchoolClass;
 import com.sms.sms.Service.TeacherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -72,6 +72,11 @@ public class TeacherController {
     @GetMapping("/classes/{classId}/students")
     public ResponseEntity<List<StudentDto>> listStudentsByClass(@PathVariable Long classId) {
         return ResponseEntity.ok(teacherService.listStudentsByClass(classId));
+    }
+
+    @GetMapping("/classes")
+    public ResponseEntity<List<SchoolClassDto>> listClasses() {
+        return ResponseEntity.ok(teacherService.listClasses());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

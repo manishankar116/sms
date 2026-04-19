@@ -1,6 +1,7 @@
 package com.sms.sms.Service;
 
 import com.sms.sms.DTO.common.StudentDto;
+import com.sms.sms.DTO.common.SchoolClassDto;
 import com.sms.sms.DTO.teacher.*;
 import com.sms.sms.Entity.*;
 import com.sms.sms.Repository.*;
@@ -114,6 +115,13 @@ public class TeacherService {
         return studentRepository.findBySchoolClassId(classId)
                 .stream()
                 .map(DtoMapper::toStudentDto)
+                .toList();
+    }
+
+    public List<SchoolClassDto> listClasses() {
+        return schoolClassRepository.findAll()
+                .stream()
+                .map(DtoMapper::toClassDto)
                 .toList();
     }
 
